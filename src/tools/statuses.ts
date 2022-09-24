@@ -1,17 +1,22 @@
 import { ActivityType, Client, ClientPresenceStatus } from "discord.js";
 
-const statues: [
-  Exclude<ActivityType, ActivityType.Custom>,
-  string,
-  ClientPresenceStatus
-][] = [
-  [ActivityType.Listening, "! Glitchy", "dnd"],
-  [ActivityType.Playing, "with @sern/cli", "idle"],
-  [ActivityType.Watching, "sern bots", "dnd"],
-  [ActivityType.Listening, "/commands", "online"],
-];
-
 export function randomStatus(client: Client) {
+  const statues: [
+    Exclude<ActivityType, ActivityType.Custom>,
+    string,
+    ClientPresenceStatus
+  ][] = [
+    [ActivityType.Listening, "! Glitchy", "dnd"],
+    [ActivityType.Playing, "with @sern/cli", "idle"],
+    [ActivityType.Watching, "sern bots", "dnd"],
+    [ActivityType.Listening, "/commands", "online"],
+    [
+      ActivityType.Watching,
+      `${client.users.cache.filter((m) => !m.bot).size} user(s)`,
+      "dnd",
+    ],
+  ];
+
   setInterval(() => {
     const shuffledStatuses = shuffleArray(statues);
     const [type, name, status] = [...shuffledStatuses].shift()!;
